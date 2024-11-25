@@ -2,11 +2,11 @@ package org.example.commands;
 
 import org.example.GroceryItem;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AddGroceryItemToListCommand implements Command {
-    private static Map<String, GroceryItem> groceryList;
+    private final Map<String, GroceryItem> groceryList;
+    private GroceryItem lastAddedItem;
 
     public AddGroceryItemToListCommand(Map<String, GroceryItem> groceryList) {
         this.groceryList = groceryList;
@@ -15,11 +15,12 @@ public class AddGroceryItemToListCommand implements Command {
     @Override
     public void execute(GroceryItem item) {
         groceryList.put(item.getName(), item);
+        this.lastAddedItem = item;
     }
 
     @Override
-    public void undo(GroceryItem item) {
-        groceryList.remove(item.getName());
+    public GroceryItem undo() {
+        return this.groceryList.remove(lastAddedItem.getName());
     }
 
 }

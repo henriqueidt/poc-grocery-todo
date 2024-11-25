@@ -7,8 +7,10 @@ public class Main {
         app.addGroceryItemToList("Milk");
         app.addGroceryItemToList("Eggs");
         app.addGroceryItemToList("Bread");
+        app.undoAddGroceryItemToList();
 
         app.markGroceryItemAsDone("Milk");
+
 
         System.out.println(app.getGroceryList());
 

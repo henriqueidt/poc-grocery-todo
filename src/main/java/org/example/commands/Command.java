@@ -4,5 +4,5 @@ import org.example.GroceryItem;
 
 public interface Command {
     void execute(GroceryItem item);
-    void undo(GroceryItem item);
+    GroceryItem undo();
 }
