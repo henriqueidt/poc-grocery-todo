@@ -1,19 +1,24 @@
 package org.example.commands;
 
 import org.example.GroceryItem;
+import org.example.GroceryTodoApp;
 
 public class MarkGroceryItemAsDoneCommand implements Command {
+    private final GroceryTodoApp app;
     private GroceryItem lastDoneItem;
 
-    @Override
-    public void execute(GroceryItem item) {
-        item.setDone(true);
+    public MarkGroceryItemAsDoneCommand(GroceryTodoApp app, GroceryItem item) {
+        this.app = app;
         this.lastDoneItem = item;
     }
 
     @Override
-    public GroceryItem undo() {
-        lastDoneItem.setDone(false);
-        return null;
+    public void execute() {
+        this.app.markItemAsDone(lastDoneItem);
+    }
+
+    @Override
+    public void undo() {
+        this.app.unmarkItemAsDone(lastDoneItem);
     }
 }

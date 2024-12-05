@@ -2,15 +2,18 @@ package org.example;
 
 public class Main {
     public static void main(String[] args) {
-        GroceryTodoApp app = new GroceryTodoApp();
+        Client app = new Client();
 
         app.addGroceryItemToList("Milk");
         app.addGroceryItemToList("Eggs");
         app.addGroceryItemToList("Bread");
-        app.undoAddGroceryItemToList();
+
+        app.undo();
 
         app.markGroceryItemAsDone("Milk");
+        app.markGroceryItemAsDone("Eggs");
 
+        app.undo();
 
         System.out.println(app.getGroceryList());
 

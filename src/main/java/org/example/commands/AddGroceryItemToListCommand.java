@@ -1,26 +1,25 @@
 package org.example.commands;
 
 import org.example.GroceryItem;
-
-import java.util.Map;
+import org.example.GroceryTodoApp;
 
 public class AddGroceryItemToListCommand implements Command {
-    private final Map<String, GroceryItem> groceryList;
+    private final GroceryTodoApp app;
     private GroceryItem lastAddedItem;
 
-    public AddGroceryItemToListCommand(Map<String, GroceryItem> groceryList) {
-        this.groceryList = groceryList;
+    public AddGroceryItemToListCommand(GroceryTodoApp app, String itemName) {
+        this.app = app;
+        this.lastAddedItem = new GroceryItem(itemName);
     }
 
     @Override
-    public void execute(GroceryItem item) {
-        groceryList.put(item.getName(), item);
-        this.lastAddedItem = item;
+    public void execute() {
+        this.app.addGroceryItemToList(lastAddedItem);
     }
 
     @Override
-    public GroceryItem undo() {
-        return this.groceryList.remove(lastAddedItem.getName());
+    public void undo() {
+        this.app.removeGroceryItemFromList(lastAddedItem);
     }
 
 }

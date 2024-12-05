@@ -1,29 +1,38 @@
 package org.example;
 
 import org.example.commands.AddGroceryItemToListCommand;
-import org.example.commands.MarkGroceryItemAsDoneCommand;
+//import org.example.commands.MarkGroceryItemAsDoneCommand;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class GroceryTodoApp {
     private static Map<String, GroceryItem> groceryList = new LinkedHashMap<>();
-    private AddGroceryItemToListCommand addCommand = new AddGroceryItemToListCommand(groceryList);
 
-    public void addGroceryItemToList(String itemName) {
-        GroceryItem item = new GroceryItem(itemName);
-        addCommand.execute(item);
+    public GroceryItem getGroceryItem(String itemName) {
+        return groceryList.get(itemName);
     }
 
-    public String undoAddGroceryItemToList() {
-        return addCommand.undo().getName();
+    public void addGroceryItemToList(GroceryItem item) {
+        groceryList.put(item.getName(), item);
     }
 
-    public void markGroceryItemAsDone(String itemName) {
-        MarkGroceryItemAsDoneCommand markItemDone = new MarkGroceryItemAsDoneCommand();
-        GroceryItem item = groceryList.get(itemName);
-        markItemDone.execute(item);
+    public void removeGroceryItemFromList(GroceryItem item) {
+        groceryList.remove(item.getName());
     }
+
+    public void markItemAsDone(GroceryItem item) {
+        item.setDone(true);
+    }
+
+    public void unmarkItemAsDone(GroceryItem item) {
+        item.setDone(false);
+    }
+    
+    public Map<String, GroceryItem> getList() {
+        return groceryList;
+    }
+
 
     public String getGroceryList() {
         StringBuilder list = new StringBuilder();
