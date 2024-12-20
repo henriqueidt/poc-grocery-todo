@@ -44,6 +44,34 @@ const App = () => {
     }
   };
 
+  // Handle unmarking an item as done
+  const unmarkItemDone = async (name) => {
+    try {
+      await axios.put(`${API_BASE_URL}/todo-list/unmark-item-done/${name}`);
+      fetchTodoList(); // Refresh list
+    } catch (err) {
+      setError(`Failed to unmark ${name} as done.`);
+    }
+  };
+
+  // Handle checkbox toggle
+  const toggleItemDone = async (item) => {
+    if (item.done) {
+      await unmarkItemDone(item.name);
+    } else {
+      await markItemDone(item.name);
+    }
+  };
+
+  const handleUndo = async () => {
+    try {
+      await axios.get(`${API_BASE_URL}/todo-list/undo`);
+      fetchTodoList();
+    } catch (err) {
+      setError("Failed to undo.");
+    }
+  };
+
   // Load to-do list on component mount
   useEffect(() => {
     fetchTodoList();
@@ -76,27 +104,27 @@ const App = () => {
             key={item.name}
             style={{
               display: "flex",
-              justifyContent: "space-between",
+              alignItems: "center",
               padding: "10px",
               borderBottom: "1px solid #ddd",
             }}
           >
+            <input
+              type="checkbox"
+              checked={item.done}
+              onChange={() => toggleItemDone(item)}
+              style={{ marginRight: "10px" }}
+            />
             <span
               style={{ textDecoration: item.done ? "line-through" : "none" }}
             >
               {item.name}
             </span>
-            {!item.done && (
-              <button
-                onClick={() => markItemDone(item.name)}
-                style={{ padding: "4px 8px", cursor: "pointer" }}
-              >
-                Mark as Done
-              </button>
-            )}
           </li>
         ))}
       </ul>
+
+      <button onClick={handleUndo}>Undo</button>
     </div>
   );
 };
